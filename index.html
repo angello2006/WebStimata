@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage (Rombakan Aesthetic Putih-Oranye)</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'custom-orange': '#ff5000',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* Mengganti warna default Swiper menjadi oranye */
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #ff5000;
+        }
+        .swiper-pagination-bullet-active {
+            background-color: #ff5000;
+        }
+
+        /* --- Efek Samar (HANYA UNTUK SLIDER BERITA) --- */
+        .swiper-berita {
+            overflow: hidden; 
+            padding: 0 50px; 
+        }
+        .swiper-berita .swiper-slide {
+            transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+            opacity: 0.45; 
+            transform: scale(0.85); 
+        }
+        .swiper-berita .swiper-slide-active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .swiper-berita .swiper-button-prev { left: 0; }
+        .swiper-berita .swiper-button-next { right: 0; }
+
+        /* PERUBAHAN: Kembalikan warna panah/titik berita ke ORANYE/ABU-ABU */
+        .swiper-berita .swiper-button-next,
+        .swiper-berita .swiper-button-prev {
+            color: #ff5000; /* Oranye */
+        }
+        .swiper-berita .swiper-pagination-bullet {
+            background: #D1D5DB; /* Abu-abu default Tailwind */
+        }
+        .swiper-berita .swiper-pagination-bullet-active {
+            background: #ff5000; /* Oranye untuk aktif */
+        }
+
+
+        @media (max-width: 768px) {
+            .swiper-berita .swiper-button-prev,
+            .swiper-berita .swiper-button-next {
+                display: none;
+            }
+            .swiper-berita {
+                padding: 0 20px; 
+            }
+        }
+
+        /* --- Pengaturan untuk Slider Testimoni (TETAP SAMA) --- */
+        .swiper-testimoni .swiper-slide {
+            padding-bottom: 3.5rem; 
+            height: auto; 
+        }
+        .swiper-testimoni .swiper-slide > div {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .swiper-testimoni .swiper-slide > div p {
+            flex-grow: 1; 
+        }
+        .swiper-testimoni .swiper-pagination {
+            bottom: 1rem; 
+        }
+        .swiper-testimoni .swiper-button-prev { left: -5px; }
+        .swiper-testimoni .swiper-button-next { right: -5px; }
+        @media (max-width: 768px) {
+            .swiper-testimoni .swiper-button-prev,
+            .swiper-testimoni .swiper-button-next {
+                display: none; 
+            }
+        }
+    </style>
+
+</head>
+<body class="bg-white text-gray-900 font-sans">
+
+    <section class="py-16 md:py-20 bg-white">
+        <div class="container mx-auto px-4">
+            
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-3 text-gray-900">
+                    Berita & Pengumuman Terbaru
+                </h2>
+                <p class="text-lg text-gray-600">
+                    Ikuti perkembangan dan informasi terkini dari kampus kami.
+                </p>
+            </div>
+
+            <div class="swiper-container swiper-berita relative w-full max-w-4xl mx-auto">
+                <div class="swiper-wrapper">
+                    
+                    <div class="swiper-slide p-2">
+                        <a href="#" class="group relative block w-full h-96 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6Uja6ZMWJfFHTHdUD0oivtkmNF_2nqBlKmg&s" alt="Gambar Berita 1">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                            
+                            <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-custom-orange text-sm font-semibold uppercase tracking-wider">PENGUMUMAN</span>
+                                    <span class="text-gray-300 text-xs font-medium">22 Agustus 2025</span>
+                                </div>
+                                <h3 class="font-bold text-xl my-2 text-white transition-colors group-hover:text-custom-orange">
+                                    Jadwal Ujian Akhir Semester Gasal 2025/2026
+                                </h3>
+                                <div class="text-custom-orange font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform -translate-x-2 group-hover:translate-x-0">
+                                    Baca Selengkapnya <span>&rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="swiper-slide p-2">
+                        <a href="#" class="group relative block w-full h-96 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqdFllV87KIRF4ZKwoSj4L8Fj8z96JW6jFiA&s" alt="Gambar mahasiswa menggunakan komputer">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                            
+                            <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-custom-orange text-sm font-semibold uppercase tracking-wider">PRESTASI</span>
+                                    <span class="text-gray-300 text-xs font-medium">15 Agustus 2025</span>
+                                </div>
+                                <h3 class="font-bold text-xl my-2 text-white transition-colors group-hover:text-custom-orange">
+                                    Mahasiswa Teknik Informatika Juara 1 Lomba Hackathon Nasional
+                                </h3>
+                                <div class="text-custom-orange font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform -translate-x-2 group-hover:translate-x-0">
+                                    Baca Selengkapnya <span>&rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="swiper-slide p-2">
+                        <a href="#" class="group relative block w-full h-96 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                            <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105" src="https://um.ac.id/wp-content/uploads/2020/12/3-Dokumentasi-Kegiatan-KMP-scaled.jpg" alt="Gambar seminar atau webinar">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                            
+                            <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-custom-orange text-sm font-semibold uppercase tracking-wider">KEGIATAN</span>
+                                    <span class="text-gray-300 text-xs font-medium">10 Agustus 2025</span>
+                                </div>
+                                <h3 class="font-bold text-xl my-2 text-white transition-colors group-hover:text-custom-orange">
+                                    Webinar "Persiapan Karir di Era Digital" Bersama Praktisi Industri
+                                </h3>
+                                <div class="text-custom-orange font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform -translate-x-2 group-hover:translate-x-0">
+                                    Baca Selengkapnya <span>&rarr;</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                </div>
+                
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                
+                <div class="swiper-pagination mt-8"></div>
+            </div>
+
+        </div>
+    </section>
+    <section class="py-16 md:py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-3">
+                    Apa Kata Mereka?
+                </h2>
+                <p class="text-lg text-gray-600">
+                    Dengarkan pengalaman dari para mahasiswa dan alumni kami.
+                </p>
+            </div>
+
+            <div class="swiper-container swiper-testimoni relative w-full max-w-6xl mx-auto">
+                <div class="swiper-wrapper">
+                    
+                    <div class="swiper-slide p-2">
+                        <div class="bg-white p-8 rounded-lg shadow-lg">
+                            <div class="text-custom-orange text-6xl font-bold opacity-30 mb-4">“</div>
+                            <p class="text-gray-700 italic mb-6">
+                                "Dosen-dosen di sini sangat mendukung. Saya tidak hanya belajar teori, tetapi juga didorong untuk menerapkan ilmu saya di proyek-proyek nyata. Lingkungan kampusnya luar biasa."
+                            </p>
+                            <div class="flex items-center">
+                                <img class="w-14 h-14 rounded-full object-cover mr-4" src="https://source.unsplash.com/100x100/?female,student,portrait?sig=1" alt="Foto Testimoni 1">
+                                <div>
+                                    <h4 class="font-bold text-lg">Karina Putri</h4>
+                                    <p class="text-gray-600 text-sm">Mahasiswa, Teknik Informatika</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide p-2">
+                        <div class="bg-white p-8 rounded-lg shadow-lg">
+                            <div class="text-custom-orange text-6xl font-bold opacity-30 mb-4">“</div>
+                            <p class="text-gray-700 italic mb-6">
+                                "Berkat jaringan industri yang kuat dari kampus, saya mendapatkan kesempatan magang di perusahaan impian saya. Sekarang saya sudah diterima bekerja di sana sebelum lulus."
+                            </p>
+                            <div class="flex items-center">
+                                <img class="w-14 h-14 rounded-full object-cover mr-4" src="https://source.unsplash.com/100x100/?male,student,portrait?sig=2" alt="Foto Testimoni 2">
+                                <div>
+                                    <h4 class="font-bold text-lg">Budi Santoso</h4>
+                                    <p class="text-gray-600 text-sm">Alumni 2024, Manajemen Bisnis</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide p-2">
+                        <div class="bg-white p-8 rounded-lg shadow-lg">
+                            <div class="text-custom-orange text-6xl font-bold opacity-30 mb-4">“</div>
+                            <p class="text-gray-700 italic mb-6">
+                                "Fasilitas laboratoriumnya sangat lengkap. Saya bisa melakukan banyak riset dan eksperimen yang menunjang mata kuliah saya. Sangat puas dengan pengalaman belajar di sini."
+                            </p>
+                            <div class="flex items-center">
+                                <img class="w-14 h-14 rounded-full object-cover mr-4" src="https://source.unsplash.com/100x100/?woman,student,portrait?sig=3" alt="Foto Testimoni 3">
+                                <div>
+                                    <h4 class="font-bold text-lg">Dewi Lestari</h4>
+                                    <p class="text-gray-600 text-sm">Mahasiswa, Desain Komunikasi Visual</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide p-2">
+                        <div class="bg-white p-8 rounded-lg shadow-lg">
+                            <div class="text-custom-orange text-6xl font-bold opacity-30 mb-4">“</div>
+                            <p class="text-gray-700 italic mb-6">
+                                "Pengalaman organisasi di UKM sangat berharga. Kampus ini benar-benar mendukung pengembangan soft skills."
+                            </p>
+                            <div class="flex items-center">
+                                <img class="w-14 h-14 rounded-full object-cover mr-4" src="https://source.unsplash.com/100x100/?male,portrait?sig=4" alt="Foto Testimoni 4">
+                                <div>
+                                    <h4 class="font-bold text-lg">Ahmad Faisal</h4>
+                                    <p class="text-gray-600 text-sm">Mahasiswa, Ilmu Hukum</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide p-2">
+                        <div class="bg-white p-8 rounded-lg shadow-lg">
+                            <div class="text-custom-orange text-6xl font-bold opacity-30 mb-4">“</div>
+                            <p class="text-gray-700 italic mb-6">
+                                "Program magang internasionalnya membuka wawasan saya. Saya bangga menjadi bagian dari almamater ini."
+                            </p>
+                            <div class="flex items-center">
+                                <img class="w-14 h-14 rounded-full object-cover mr-4" src="https://source.unsplash.com/100x100/?female,portrait?sig=5" alt="Foto Testimoni 5">
+                                <div>
+                                    <h4 class="font-bold text-lg">Siti Aminah</h4>
+                                    <p class="text-gray-600 text-sm">Alumni 2023, Hubungan Internasional</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide p-2">
+                        <div class="bg-white p-8 rounded-lg shadow-lg">
+                            <div class="text-custom-orange text-6xl font-bold opacity-30 mb-4">“</div>
+                            <p class="text-gray-700 italic mb-6">
+                                "Akses ke jurnal dan perpustakaan digital sangat mudah. Sangat membantu saya menyelesaikan skripsi tepat waktu."
+                            </p>
+                            <div class="flex items-center">
+                                <img class="w-14 h-14 rounded-full object-cover mr-4" src="https://source.unsplash.com/100x100/?man,portrait?sig=6" alt="Foto Testimoni 6">
+                                <div>
+                                    <h4 class="font-bold text-lg">Rian Hidayat</h4>
+                                    <p class="text-gray-600 text-sm">Mahasiswa, Sastra Inggris</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-16 md:py-20">
+        <div class="container mx-auto px-4">
+            
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-3">
+                    Mitra Industri dan Kolaborasi
+                </h2>
+                <p class="text-lg text-gray-600">
+                    Kami bekerja sama dengan perusahaan terdepan untuk masa depan lulusan.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
+                <img src="https://logo.clearbit.com/telkom.com" alt="Logo Google" class="h-10 md:h-12 filter grayscale hover:grayscale-0 transition duration-300">
+                <img src="https://logo.clearbit.com/microsoft.com" alt="Logo Microsoft" class="h-10 md:h-12 filter grayscale hover:grayscale-0 transition duration-300">
+                <img src="https://logo.clearbit.com/ibm.com" alt="Logo IBM" class="h-10 md:h-12 filter grayscale hover:grayscale-0 transition duration-300">
+                <img src="https://logo.clearbit.com/tokopedia.com" alt="Logo Tokopedia" class="h-10 md:h-12 filter grayscale hover:grayscale-0 transition duration-300">
+                <img src="https://logo.clearbit.com/gojek.com" alt="Logo Gojek" class="h-10 md:h-12 filter grayscale hover:grayscale-0 transition duration-300">
+                <img src="https://logo.clearbit.com/traveloka.com" alt="Logo Traveloka" class="h-10 md:h-12 filter grayscale hover:grayscale-0 transition duration-300">
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-16 md:py-20 bg-white border-t border-gray-100">
+        <div class="container mx-auto px-4">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+                
+                <div class="space-y-8"> 
+                    <div class="rounded-lg shadow-lg overflow-hidden aspect-video"> <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3009.7822191159303!2d112.65252457282044!3d-7.945563039423587!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd629bc05c97bc7%3A0x2cc8f9e59123671c!2sSTMIK%20PPKIA%20Pradnya%20Paramita%20(STIMATA)!5e0!3m2!1sid!2sid!4v1760792190518!5m2!1sid!2sid" 
+                            class="w-full h-full border-0" allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+
+                    <div class="rounded-lg shadow-lg overflow-hidden aspect-video"> <iframe 
+                            class="w-full h-full" src="https://www.youtube.com/embed/fMHnvQGJNFc" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="py-4 lg:sticky lg:top-8"> <img src="https://stimata.ac.id/wp-content/uploads/2023/04/LOGO-STIMATA-1.png" alt="Logo STIMATA" class="h-16 w-auto mb-5">
+                    
+                    <h3 class="text-custom-orange font-bold text-xl mb-3">
+                        STMIK PPKIA PRADNYA PARAMITA
+                    </h3>
+                    
+                    <p class="text-gray-600 text-sm mb-8">
+                        Kampus STIMATA merupakan salah satu Institusi Pendidikan Tinggi di wilayah Malang yang mendapat peringkat Top-40 Sekolah Tinggi dan Top-100 Perguruan Tinggi se-Jawa Timur.
+                    </p>
+
+                    <div class="space-y-5">
+                        
+                        <div>
+                            <svg class="w-8 h-8 text-custom-orange mb-2 inline-block align-top mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
+                            <span class="text-gray-700 text-sm inline-block">
+                                Jl. Laksda Adi Sucipto No.249a, Pandanwangi, Kec. Blimbing, Kota Malang, Jawa Timur 65126
+                            </span>
+                        </div>
+
+                        <div>
+                            <svg class="w-8 h-8 text-custom-orange mb-2 inline-block align-top mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.836-1.44-5.29-3.895-6.73-6.73l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102A1.125 1.125 0 0 0 5.87 2.25H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" /></svg>
+                            <span class="text-gray-700 text-sm inline-block">
+                                Telp. 0341-412699<br>
+                                Fax. 0341-412782, Whatsapp. 087730003828
+                            </span>
+                        </div>
+
+                        <div>
+                            <svg class="w-8 h-8 text-custom-orange mb-2 inline-block align-top mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
+                            <span class="text-gray-700 text-sm inline-block">
+                                sewat@stimata.ac.id
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-300 pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                
+                <div>
+                    <h3 class="text-white text-xl font-bold mb-4">UNIVERSITAS ANDA</h3>
+                    <p class="mb-2">
+                        Jl. Pendidikan No. 123,<br>
+                        Kota Imajinasi, Indonesia 12345
+                    </p>
+                    <p class="mb-2"><strong>Phone:</strong> (021) 123-4567</p>
+                    <p><strong>Email:</strong> info@universitas.ac.id</p>
+                </div>
+
+                <div>
+                    <h4 class="text-white text-lg font-semibold mb-4">Akademik</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-custom-orange transition-colors">Program Sarjana</a></li>
+                        <li><a href="#" class="hover:text-custom-orange transition-colors">Program Pascasarjana</a></li>
+                        <li><a href="#" class="hover:text-custom-orange transition-colors">Penerimaan Mahasiswa</a></li>
+                        <li><a href="#" class="hover:text-custom-orange transition-colors">Kalender Akademik</a></li>
+                        <li><a href="#" class="hover:text-custom-orange transition-colors">Fakultas & Prodi</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white text-lg font-semibold mb-4">Tautan Cepat</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-custom-orange transition-colors">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:text-custom-orange transition-colors">Portal Mahasiswa</a></li>
+                        <li><a href="#" class="hover:text-custom-orange transition-colors">Perpustakaan Online</a></li>
+                        <li><a href="#" class="hover:text-custom-orange transition-colors">Pusat Karir</a></li>
+                        <li><a href="#" class="hover:text-custom-orange transition-colors">Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white text-lg font-semibold mb-4">Ikuti Kami</h4>
+                    <p class="mb-4">Dapatkan info terbaru dari kami melalui media sosial.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 hover:bg-custom-orange rounded-full flex items-center justify-center transition-colors" aria-label="Facebook">
+                            <svg class...></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 hover:bg-custom-orange rounded-full flex items-center justify-center transition-colors" aria-label="Instagram">
+                            <svg class...></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 hover:bg-custom-orange rounded-full flex items-center justify-center transition-colors" aria-label="Twitter">
+                            <svg class...></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="border-t border-gray-700 mt-10 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    © 2025 Universitas Anda. All Rights Reserved.
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // Inisialisasi Swiper 1 (Berita)
+        const swiperBerita = new Swiper('.swiper-berita', {
+            slidesPerView: 'auto', 
+            spaceBetween: 30, 
+            loop: true,
+            centeredSlides: true, 
+            
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+
+            pagination: {
+                el: '.swiper-berita .swiper-pagination', 
+                clickable: true,
+            },
+
+            navigation: {
+                nextEl: '.swiper-berita .swiper-button-next', 
+                prevEl: '.swiper-berita .swiper-button-prev',
+            },
+        });
+
+        // Inisialisasi Swiper 2 (Testimoni)
+        const swiperTestimoni = new Swiper('.swiper-testimoni', {
+            slidesPerView: 1,  
+            spaceBetween: 30,
+            loop: true,
+            
+            autoplay: {
+                delay: 6000, 
+                disableOnInteraction: false,
+            },
+
+            pagination: {
+                el: '.swiper-testimoni .swiper-pagination', 
+                clickable: true,
+            },
+
+            navigation: {
+                nextEl: '.swiper-testimoni .swiper-button-next', 
+                prevEl: '.swiper-testimoni .swiper-button-prev',
+            },
+            
+            breakpoints: {
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 20
+                },
+                1024: {
+                    slidesPerView: 3, 
+                    spaceBetween: 30
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
