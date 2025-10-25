@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMB [Nama Kampus]</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cream': '#FDF6E3',
+                        'orange-accent': '#FF5000',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Animasi Lama (Tetap bisa dipakai di Hero) */
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        /* === DUA SET ANIMASI ON-SCROLL === */
+
+        /* ANIMASI 1: SLIDE IN (Untuk Alur Pendaftaran) */
+        .slide-trigger {
+            opacity: 0;
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+
+        .slide-trigger.from-left {
+            transform: translateX(-50px);
+        }
+
+        .slide-trigger.from-right {
+            transform: translateX(50px);
+        }
+
+        .slide-trigger.is-visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ANIMASI 2: FADE IN + SCALE UP (Untuk Jadwal Penting & Elemen Lain) */
+        .fade-scale-trigger {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-scale-trigger.is-visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Kelas Delay (Bisa dipakai keduanya) */
+        .scroll-delay-100 {
+            transition-delay: 100ms;
+        }
+
+        .scroll-delay-200 {
+            transition-delay: 200ms;
+        }
+
+        .scroll-delay-300 {
+            transition-delay: 300ms;
+        }
+
+        .scroll-delay-400 {
+            transition-delay: 400ms;
+        }
+
+        .scroll-delay-500 {
+            transition-delay: 500ms;
+        }
+
+        .scroll-delay-600 {
+            transition-delay: 600ms;
+        }
+
+        /* === AKHIR CSS ANIMASI === */
+
+        /* === PERUBAHAN CSS: Hanya Shadow untuk Navbar saat di-scroll === */
+        .header-scrolled {
+            /* background-color tidak perlu diubah, sudah putih */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.3s ease-in-out;
+            /* Transisi hanya untuk shadow */
+        }
+
+        /* Aturan warna teks spesifik untuk .header-scrolled dihapus */
+        /* === AKHIR PERUBAHAN CSS Navbar === */
+
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-800">
+
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+
+        <symbol id="icon-money-bill-wave" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+                d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm12 2a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-4a2 2 0 012-2h12zm-6 4a1 1 0 100 2 1 1 0 000-2zm-3-1a1 1 0 112 0 1 1 0 01-2 0zm7 1a1 1 0 100 2 1 1 0 000-2z"
+                clip-rule="evenodd" />
+        </symbol>
+        <symbol id="icon-academic-cap" viewBox="0 0 20 20" fill="currentColor">
+            <path
+                d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.057 9.789L.157 10.96a1 1 0 000 1.84l9 4a1 1 0 00.788 0l9-4a1 1 0 000-1.84l-2.9-1.171a.999.999 0 01-.356-.257L10 8.883l-6.588 2.823a.999.999 0 01-.355.257z" />
+        </symbol>
+
+        <symbol id="icon-code" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+                d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"
+                clip-rule="evenodd" />
+        </symbol>
+        <symbol id="icon-check-circle" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd" />
+        </symbol>
+        <symbol id="icon-sparkles" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+                d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm6.707 3.293a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 8a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1V9a1 1 0 011-1zm-3.293 4.707a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zM10 12a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1H8a1 1 0 110-2h1v-1a1 1 0 011-1zM4.707 9.293a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM7 11a1 1 0 011 1v1h1a1 1 0 110 2H8v1a1 1 0 11-2 0v-1H5a1 1 0 110-2h1v-1a1 1 0 011-1z"
+                clip-rule="evenodd" />
+        </symbol>
+
+    </svg>
+
+    <header class="bg-white sticky top-0 z-50 transition-all duration-300" id="main-header">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-gray-900">[NAMA KAMPUS]</a>
+
+            <div class="hidden md:flex space-x-6">
+                <a href="#jalur" class="text-gray-700 hover:text-orange-accent transition nav-link">Jalur
+                    Pendaftaran</a>
+                <a href="#prodi" class="text-gray-700 hover:text-orange-accent transition nav-link">Program Studi</a>
+                <a href="#biaya" class="text-gray-700 hover:text-orange-accent transition nav-link">Biaya & Beasiswa</a>
+                <a href="#kontak" class="text-gray-700 hover:text-orange-accent transition nav-link">Kontak PMB</a>
+            </div>
+
+            <a href="#daftar"
+                class="bg-orange-accent text-white font-semibold px-5 py-2 rounded-full hover:bg-opacity-90 transition shadow-lg">
+                Daftar Sekarang
+            </a>
+        </nav>
+    </header>
+    <main>
+
+        <section id="hero" class="bg-white py-20 md:py-32 overflow-hidden">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+
+                <div class="text-left">
+                    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight fade-in-up">
+                        Wujudkan Masa Depanmu
+                        <span class="text-orange-accent">di [Nama Kampus]</span>
+                    </h1>
+                    <p class="mt-6 text-lg text-gray-700 max-w-lg fade-in-up delay-1">
+                        Penerimaan Mahasiswa Baru 2026/2027 telah dibuka. Temukan program studi unggulan dan
+                        raih potensimu bersama kami.
+                    </p>
+                    <a href="#daftar"
+                        class="mt-10 inline-block bg-orange-accent text-white font-bold text-lg px-10 py-4 rounded-full shadow-xl hover:bg-opacity-90 transform hover:scale-105 transition fade-in-up delay-2">
+                        Mulai Pendaftaran
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4 md:gap-6">
+                    <div class="w-full h-96 rounded-xl shadow-2xl overflow-hidden">
+                        <img src="https://suryadnapoleon.wordpress.com/wp-content/uploads/2015/01/38_big.jpg"
+                            alt="Gedung Kampus"
+                            class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                    </div>
+                    <div class="w-full h-96 rounded-xl shadow-2xl overflow-hidden mt-8">
+                        <img src="https://rinaldimunir.wordpress.com/wp-content/uploads/2013/05/ngampar.jpg?w=640"
+                            alt="Gerbang Kampus"
+                            class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                    </div>
+                    <div class="w-full h-96 rounded-xl shadow-2xl overflow-hidden">
+                        <img src="https://ariefsimpel.wordpress.com/wp-content/uploads/2016/01/kampus.jpg?w=640"
+                            alt="Aktivitas Kampus"
+                            class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="fitur-unggulan" class="py-20 bg-cream">
+            <div class="container mx-auto px-6">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">Jalur Pendaftaran</h2>
+                    <p class="text-gray-700 mb-12 max-w-2xl mx-auto">Pilih jalur masuk yang paling sesuai
+                        dengan
+                        prestasi dan kualifikasi Anda.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                        <a href="#"
+                            class="group relative block rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                                style="background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNjUyOXwwfDF8c2VhcmNofDN8fHVuaXZlcnNpdHklMjBidWlsZGluZ3xlbnwwfHx8fDE3MzAwMDI0MDF8MA&ixlib=rb-4.0.3&q=80&w=800');">
+                            </div>
+                            <div class="absolute inset-0 bg-orange-accent opacity-90"></div>
+                            <div class="relative z-10 p-8 h-full flex flex-col items-center text-center">
+                                <svg class="w-16 h-16 text-white mb-5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <h3 class="text-2xl font-bold text-white mb-3">Pendaftaran Reguler</h3>
+                                <p class="text-gray-100 text-sm">
+                                    Seleksi penerimaan mahasiswa baru memiliki beberapa jalur utama, antara
+                                    lain
+                                    SNBP, SNBT, Seleksi Mandiri Program Vokasi, Beasiswa, dan Program
+                                    Khusus.
+                                </p>
+                            </div>
+                        </a>
+
+                        <a href="#"
+                            class="group relative block rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                                style="background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNjUyOXwwfDF8c2VhcmNofDEwfHxzdHVkZW50JTIwZ3JhZHVhdGlvbnxlbnwwfHx8fDE3MzAwMDI0NDF8MA&ixlib=rb-4.0.3&q=80&w=800');">
+                            </div>
+                            <div class="absolute inset-0 bg-orange-accent opacity-90"></div>
+                            <div class="relative z-10 p-8 h-full flex flex-col items-center text-center">
+                                <svg class="w-16 h-16 text-white mb-5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 6.253v13.5M12 6.253C10.59 5.56 9.094 5 7.5 5 4.41 5 2 7.239 2 10.5 2 12.832 3.84 14.823 6.16 15.413M12 6.253C13.41 5.56 14.906 5 16.5 5c3.09 0 5.5 2.239 5.5 5.5 0 2.332-1.84 4.323-4.16 4.913">
+                                    </path>
+                                </svg>
+                                <h3 class="text-2xl font-bold text-white mb-3">Beasiswa</h3>
+                                <p class="text-gray-100 text-sm">
+                                    Kami membuka kesempatan bagi pendaftar dari semua kalangan agar bisa
+                                    berkuliah di kampus melalui KIP Kuliah, Seleksi Mandiri Prestasi, dan
+                                    beasiswa mitra.
+                                </p>
+                            </div>
+                        </a>
+
+                        <a href="#"
+                            class="group relative block rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                                style="background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNjUyOXwwfDF8c2VhcmNofDR8fHVuaXZlcnNpdHklMjBsZWN0dXJlfGVufDB8fHx8fDE3MzAwMDI0NzB8MA&ixlib=rb-4.0.3&q=80&w=800');">
+                            </div>
+                            <div class="absolute inset-0 bg-orange-accent opacity-90"></div>
+                            <div class="relative z-10 p-8 h-full flex flex-col items-center text-center">
+                                <svg class="w-16 h-16 text-white mb-5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.539 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.539-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z">
+                                    </path>
+                                </svg>
+                                <h3 class="text-2xl font-bold text-white mb-3">Pendaftaran RPL </h3>
+                                <p class="text-gray-100 text-sm">
+                                    Kampus kami memiliki akreditasi "A" atau "Unggul" dari BAN-PT. Ini
+                                    menunjukkan standar kualitas pendidikan tinggi dalam kurikulum,
+                                    fasilitas,
+                                    dan SDM.
+                                </p>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 md:order-1">
+                        <img src="https://civitasbook.com/_z_album_b/s2/p1/x/aaaaaspxstimata_singo202009271436542.jpg"
+                            alt="Fasilitas Kampus" class="rounded-xl shadow-2xl">
+                    </div>
+                    <div class="order-1 md:order-2">
+                        <h2 class="text-4xl font-bold text-gray-900 mb-6">Mengapa Memilih Kami?</h2>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="bg-cream text-orange-accent p-2 rounded-full mr-4">&#10003;</span>
+                                <p class="text-gray-700"><strong class="text-gray-900">Akreditasi
+                                        Unggul.</strong> Institusi dan mayoritas program studi telah
+                                    terakreditasi "Unggul" oleh BAN-PT.</p>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-cream text-orange-accent p-2 rounded-full mr-4">&#10003;</span>
+                                <p class="text-gray-700"><strong class="text-gray-900">Dosen
+                                        Berkualitas.</strong> Diajar oleh praktisi dan akademisi ahli di
+                                    bidangnya dengan reputasi internasional.</p>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-cream text-orange-accent p-2 rounded-full mr-4">&#10003;</span>
+                                <p class="text-gray-700"><strong class="text-gray-900">Lulusan Cepat
+                                        Bekerja.</strong> Data tracer study menunjukkan 90% lulusan bekerja
+                                    kurang dari 6 bulan setelah wisuda.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="prodi" class="py-24 bg-gradient-to-b from-white via-cream to-white overflow-hidden">
+            <div class="container mx-auto px-6 text-center">
+
+                <h2
+                    class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 drop-shadow-sm tracking-tight fade-scale-trigger scroll-delay-100">
+                    Program Studi Unggulan
+                </h2>
+                <p
+                    class="text-gray-600 mb-16 max-w-3xl mx-auto leading-relaxed text-lg fade-scale-trigger scroll-delay-200">
+                    Dirancang relevan dengan kebutuhan industri, mempersiapkan Anda menjadi profesional siap kerja.
+                </p>
+
+
+                <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
+
+
+                    <div
+                        class="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-orange-accent/10 hover:-translate-y-1 fade-scale-trigger scroll-delay-300">
+                        <div class="flex items-center gap-4 mb-6 pb-4 border-b border-orange-accent/10">
+
+                            <span class="inline-block p-3 bg-cream rounded-full">
+                                <svg class="w-6 h-6 text-orange-accent" fill="currentColor">
+                                    <use xlink:href="#icon-code"></use>
+                                </svg>
+                            </span>
+                            <h3 class="text-2xl font-bold text-gray-900">Fakultas Teknik</h3>
+                        </div>
+                        <div class="space-y-3">
+
+                            <div
+                                class="group flex justify-between items-center p-4 rounded-lg hover:bg-cream transition duration-300">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-orange-accent/50 group-hover:text-orange-accent transition duration-300"
+                                        fill="currentColor">
+                                        <use xlink:href="#icon-code"></use>
+                                    </svg>
+                                    <span class="font-medium text-gray-800 group-hover:text-gray-900">S1 - Sistem
+                                        Informasi</span>
+                                </div>
+                                <span
+                                    class="text-[11px] bg-orange-accent text-white font-semibold px-3 py-1 rounded-full shadow-sm">BAIK
+                                    SEKALI</span>
+                            </div>
+
+                            <div
+                                class="group flex justify-between items-center p-4 rounded-lg hover:bg-cream transition duration-300">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-orange-accent/50 group-hover:text-orange-accent transition duration-300"
+                                        fill="currentColor">
+                                        <use xlink:href="#icon-code"></use>
+                                    </svg>
+                                    <span class="font-medium text-gray-800 group-hover:text-gray-900">S1 - Teknologi
+                                        Informasi</span>
+                                </div>
+                                <span
+                                    class="text-[11px] bg-orange-accent text-white font-semibold px-3 py-1 rounded-full shadow-sm">BAIK
+                                    SEKALI</span>
+                            </div>
+                            <div
+                                class="group flex justify-between items-center p-4 rounded-lg hover:bg-cream transition duration-300">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-orange-accent/50 group-hover:text-orange-accent transition duration-300"
+                                        fill="currentColor">
+                                        <use xlink:href="#icon-code"></use>
+                                    </svg>
+                                    <span class="font-medium text-gray-800 group-hover:text-gray-900">D3 - Sistem
+                                        Informasi</span>
+                                </div>
+                                <span
+                                    class="text-[11px] bg-orange-accent text-white font-semibold px-3 py-1 rounded-full shadow-sm">BAIK
+                                    SEKALI</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div
+                        class="bg-gradient-to-br from-cream to-orange-accent/5 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border border-orange-accent/10 flex flex-col justify-center hover:scale-[1.02] fade-scale-trigger scroll-delay-400">
+                        <div class="flex items-center gap-4 mb-5">
+                            <span class="inline-block p-3 bg-white rounded-full shadow-sm">
+                                <svg class="w-6 h-6 text-orange-accent" fill="currentColor">
+                                    <use xlink:href="#icon-sparkles"></use>
+                                </svg>
+                            </span>
+                            <h3 class="text-2xl font-bold text-orange-accent">Keunggulan Fakultas Teknik</h3>
+                        </div>
+                        <p class="text-gray-600 leading-relaxed mb-6 text-sm">
+                            Kurikulum adaptif, fasilitas modern, dan kemitraan industri untuk memastikan lulusan siap
+                            bersaing di era digital.
+                        </p>
+                        <ul class="space-y-3 text-gray-800 font-medium text-sm">
+                            <li class="flex items-center gap-3 p-2 rounded-md hover:bg-white/50 transition">
+                                <svg class="w-5 h-5 text-orange-accent flex-shrink-0" fill="currentColor">
+                                    <use xlink:href="#icon-check-circle"></use>
+                                </svg>
+                                <span>Lab Terintegrasi & Berstandar Industri</span>
+                            </li>
+                            <li class="flex items-center gap-3 p-2 rounded-md hover:bg-white/50 transition">
+                                <svg class="w-5 h-5 text-orange-accent flex-shrink-0" fill="currentColor">
+                                    <use xlink:href="#icon-check-circle"></use>
+                                </svg>
+                                <span>Sertifikasi Kompetensi (BNSP & Internasional)</span>
+                            </li>
+                            <li class="flex items-center gap-3 p-2 rounded-md hover:bg-white/50 transition">
+                                <svg class="w-5 h-5 text-orange-accent flex-shrink-0" fill="currentColor">
+                                    <use xlink:href="#icon-check-circle"></use>
+                                </svg>
+                                <span>Program Magang MBKM & Industri</span>
+                            </li>
+                            <li class="flex items-center gap-3 p-2 rounded-md hover:bg-white/50 transition">
+                                <svg class="w-5 h-5 text-orange-accent flex-shrink-0" fill="currentColor">
+                                    <use xlink:href="#icon-check-circle"></use>
+                                </svg>
+                                <span>Pembelajaran Berbasis Proyek Nyata</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+
+        <section id="daftar" class="py-20 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl font-bold text-gray-900 mb-20 slide-trigger from-left scroll-delay-100">
+                    Alur Pendaftaran
+                </h2>
+
+                <div class="relative max-w-4xl mx-auto md:flex md:space-x-12">
+
+                    <div class="md:w-1/2 space-y-12">
+
+                        <div
+                            class="bg-cream p-8 rounded-2xl shadow-xl text-left relative overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:border-orange-accent border-4 border-transparent slide-trigger from-left scroll-delay-200">
+                            <span
+                                class="absolute text-[120px] font-extrabold text-orange-accent opacity-10 -top-6 -right-4">1</span>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-3 relative z-10">Buat Akun</h3>
+                            <p class="text-gray-700 relative z-10">
+                                Isi email dan data diri Anda untuk membuat akun pendaftaran resmi.
+                            </p>
+                        </div>
+
+                        <div
+                            class="bg-cream p-8 rounded-2xl shadow-xl text-left relative overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:border-orange-accent border-4 border-transparent slide-trigger from-left scroll-delay-400">
+                            <span
+                                class="absolute text-[120px] font-extrabold text-orange-accent opacity-10 -top-6 -right-4">3</span>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-3 relative z-10">Bayar Pendaftaran</h3>
+                            <p class="text-gray-700 relative z-10">
+                                Lakukan pembayaran biaya pendaftaran melalui Virtual Account yang tersedia.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="md:w-1/2 space-y-12 md:mt-24 mt-12">
+
+                        <div
+                            class="bg-cream p-8 rounded-2xl shadow-xl text-left relative overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:border-orange-accent border-4 border-transparent slide-trigger from-right scroll-delay-300">
+                            <span
+                                class="absolute text-[120px] font-extrabold text-orange-accent opacity-10 -top-6 -right-4">2</span>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-3 relative z-10">Lengkapi Data</h3>
+                            <p class="text-gray-700 relative z-10">
+                                Isi formulir biodata lengkap, data asal sekolah, dan unggah berkas yang diperlukan.
+                            </p>
+                        </div>
+
+                        <div
+                            class="bg-cream p-8 rounded-2xl shadow-xl text-left relative overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:border-orange-accent border-4 border-transparent slide-trigger from-right scroll-delay-500">
+                            <span
+                                class="absolute text-[120px] font-extrabold text-orange-accent opacity-10 -top-6 -right-4">4</span>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-3 relative z-10">Cetak Kartu Ujian</h3>
+                            <p class="text-gray-700 relative z-10">
+                                Selesai! Anda siap mengunduh kartu ujian dan mengikuti seleksi.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-cream">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-gray-900 text-center mb-16 fade-scale-trigger scroll-delay-100">
+                    Jadwal Penting
+                </h2>
+
+                <div id="timeline-container" class="relative max-w-2xl mx-auto">
+
+                    <div id="timeline-bg-line"
+                        class="absolute left-1/2 top-0 h-full w-1 bg-orange-accent/10 transform -translate-x-1/2 rounded-full">
+                    </div>
+
+                    <div id="timeline-fill-line"
+                        class="absolute left-1/2 top-0 w-1 bg-orange-accent transform -translate-x-1/2 rounded-full"
+                        style="height: 0; transition: height 0.2s linear;">
+                    </div>
+
+                    <div class="relative mb-12 fade-scale-trigger scroll-delay-200">
+                        <div
+                            class="absolute left-1/2 top-1 w-6 h-6 bg-orange-accent rounded-full transform -translate-x-1/2 border-4 border-cream shadow-md z-10">
+                        </div>
+                        <div class="ml-[calc(50%+2rem)] pl-8">
+                            <h5 class="font-bold text-lg text-gray-900 mb-1">1 Feb - 30 Mar 2026</h5>
+                            <p class="text-gray-700">Pendaftaran Gelombang 1 (Jalur Mandiri)</p>
+                        </div>
+                    </div>
+
+
+                    <div class="relative mb-12 fade-scale-trigger scroll-delay-300">
+                        <div
+                            class="absolute left-1/2 top-1 w-6 h-6 bg-orange-accent rounded-full transform -translate-x-1/2 border-4 border-cream shadow-md z-10">
+                        </div>
+                        <div class="mr-[calc(50%+2rem)] pr-8 text-right">
+                            <h5 class="font-bold text-lg text-gray-900 mb-1">5 Apr 2026</h5>
+                            <p class="text-gray-700">Ujian Seleksi Tulis (CBT)</p>
+                        </div>
+                    </div>
+
+                    <div class="relative mb-12 fade-scale-trigger scroll-delay-400">
+                        <div
+                            class="absolute left-1/2 top-1 w-6 h-6 bg-orange-accent rounded-full transform -translate-x-1/2 border-4 border-cream shadow-md z-10">
+                        </div>
+                        <div class="ml-[calc(50%+2rem)] pl-8">
+                            <h5 class="font-bold text-lg text-gray-900 mb-1">12 Apr 2026</h5>
+                            <p class="text-gray-700">Pengumuman Hasil Seleksi</p>
+                        </div>
+                    </div>
+
+                    <div class="relative fade-scale-trigger scroll-delay-500">
+                        <div
+                            class="absolute left-1/2 top-1 w-6 h-6 bg-orange-accent rounded-full transform -translate-x-1/2 border-4 border-cream shadow-md z-10">
+                        </div>
+                        <div class="mr-[calc(50%+2rem)] pr-8 text-right">
+                            <h5 class="font-bold text-lg text-gray-900 mb-1">13 - 20 Apr 2026</h5>
+                            <p class="text-gray-700">Daftar Ulang Calon Mahasiswa</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <section id="biaya"
+            class="py-28 bg-gradient-to-b from-white via-orange-accent/5 to-white relative overflow-hidden">
+            <div class="container mx-auto px-6 relative z-10 space-y-16">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                        Investasi Pendidikan Terjangkau
+                    </h2>
+                    <p class="text-gray-600 mt-4 text-base">
+                        Kami berkomitmen menyediakan akses pendidikan berkualitas melalui skema pembiayaan yang adil dan
+                        beragam program beasiswa.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
+
+                    <div
+                        class="relative rounded-2xl p-8 bg-white shadow-xl border border-orange-accent/10 hover:shadow-2xl transition-all duration-300 group">
+                        <div class="absolute -top-6 -right-6 bg-cream p-4 rounded-full shadow-lg border border-white">
+                            <svg class="w-10 h-10 text-orange-accent" fill="currentColor">
+                                <use xlink:href="#icon-money-bill-wave"></use>
+                            </svg>
+                        </div>
+
+                        <h3 class="text-3xl font-bold text-gray-900 mb-5">Biaya Kuliah (UKT)</h3>
+                        <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+                            Sistem Uang Kuliah Tunggal (UKT) yang transparan, tanpa biaya tersembunyi, dan disesuaikan
+                            dengan kemampuan ekonomi.
+                        </p>
+                        <ul class="space-y-3 text-gray-700 text-sm mb-8">
+                            <li class="flex items-center gap-3">
+                                <span
+                                    class="w-5 h-5 bg-orange-accent/10 text-orange-accent rounded-full flex items-center justify-center text-xs font-bold">✔</span>
+                                Tanpa Uang Pangkal / Gedung
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span
+                                    class="w-5 h-5 bg-orange-accent/10 text-orange-accent rounded-full flex items-center justify-center text-xs font-bold">✔</span>
+                                Opsi Cicilan Fleksibel
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span
+                                    class="w-5 h-5 bg-orange-accent/10 text-orange-accent rounded-full flex items-center justify-center text-xs font-bold">✔</span>
+                                Besaran Ditentukan Adil & Proporsional
+                            </li>
+                        </ul>
+                        <a href="#"
+                            class="inline-block bg-orange-accent text-white font-semibold px-8 py-3 rounded-full hover:bg-opacity-90 transition shadow-md hover:shadow-lg transform group-hover:scale-105 duration-300">
+                            Lihat Detail UKT
+                        </a>
+                    </div>
+
+                    <div
+                        class="relative rounded-2xl p-8 bg-white shadow-xl border border-orange-accent/10 hover:shadow-2xl transition-all duration-300 group md:mt-10">
+                        <div class="absolute -top-6 -right-6 bg-cream p-4 rounded-full shadow-lg border border-white">
+                            <svg class="w-10 h-10 text-orange-accent" fill="currentColor">
+                                <use xlink:href="#icon-academic-cap"></use>
+                            </svg>
+                        </div>
+
+                        <h3 class="text-3xl font-bold text-gray-900 mb-5">Beasiswa & Bantuan</h3>
+                        <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+                            Jangan biarkan biaya menghalangi potensimu. Beragam program beasiswa tersedia untuk
+                            mahasiswa berprestasi dan yang membutuhkan.
+                        </p>
+                        <ul class="space-y-3 text-gray-700 text-sm mb-8">
+                            <li class="flex items-center gap-3">
+                                <span
+                                    class="w-5 h-5 bg-orange-accent/10 text-orange-accent rounded-full flex items-center justify-center text-xs font-bold">★</span>
+                                Beasiswa KIP-Kuliah (Pemerintah)
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span
+                                    class="w-5 h-5 bg-orange-accent/10 text-orange-accent rounded-full flex items-center justify-center text-xs font-bold">★</span>
+                                Beasiswa Prestasi Akademik & Non-Akademik
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span
+                                    class="w-5 h-5 bg-orange-accent/10 text-orange-accent rounded-full flex items-center justify-center text-xs font-bold">★</span>
+                                Beasiswa Mitra Industri & Yayasan
+                            </li>
+                        </ul>
+                        <a href="#"
+                            class="inline-block bg-white text-orange-accent font-semibold px-8 py-3 rounded-full border-2 border-orange-accent hover:bg-orange-accent hover:text-white transition shadow-md hover:shadow-lg transform group-hover:scale-105 duration-300">
+                            Info Beasiswa Lengkap
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-orange-accent/10 to-transparent z-0">
+            </div>
+
+        </section>
+
+
+        <section id="kontak" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-gray-900 text-center mb-16">Butuh Bantuan?</h2>
+
+                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+
+                    <div class="space-y-5">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-5">Pertanyaan Umum (FAQ)</h3>
+
+                        <details
+                            class="bg-cream p-5 rounded-lg shadow-md group cursor-pointer hover:shadow-lg transition-shadow duration-300">
+                            <summary
+                                class="font-semibold text-lg text-gray-900 list-none flex justify-between items-center">
+                                <span><i class="fas fa-key mr-2 text-orange-accent"></i> Bagaimana jika lupa
+                                    password?</span>
+                                <span
+                                    class="text-orange-accent group-open:rotate-90 transform transition-transform duration-300">&#9656;</span>
+                            </summary>
+                            <p class="mt-4 text-gray-700 pt-3 border-t border-orange-accent/20">
+                                Anda dapat menggunakan fitur "Lupa Password" di halaman login. Link reset akan
+                                dikirimkan ke email terdaftar Anda.
+                            </p>
+                        </details>
+
+                        <details
+                            class="bg-cream p-5 rounded-lg shadow-md group cursor-pointer hover:shadow-lg transition-shadow duration-300">
+                            <summary
+                                class="font-semibold text-lg text-gray-900 list-none flex justify-between items-center">
+                                <span><i class="fas fa-list-ul mr-2 text-orange-accent"></i> Bisa daftar di dua
+                                    prodi?</span>
+                                <span
+                                    class="text-orange-accent group-open:rotate-90 transform transition-transform duration-300">&#9656;</span>
+                            </summary>
+                            <p class="mt-4 text-gray-700 pt-3 border-t border-orange-accent/20">
+                                Ya, untuk jalur Seleksi Mandiri, Anda diperbolehkan memilih hingga 3 (tiga) program
+                                studi yang berbeda.
+                            </p>
+                        </details>
+
+                        <details
+                            class="bg-cream p-5 rounded-lg shadow-md group cursor-pointer hover:shadow-lg transition-shadow duration-300">
+                            <summary
+                                class="font-semibold text-lg text-gray-900 list-none flex justify-between items-center">
+                                <span><i class="fas fa-file-alt mr-2 text-orange-accent"></i> Apa saja berkas yang
+                                    diperlukan?</span>
+                                <span
+                                    class="text-orange-accent group-open:rotate-90 transform transition-transform duration-300">&#9656;</span>
+                            </summary>
+                            <p class="mt-4 text-gray-700 pt-3 border-t border-orange-accent/20">
+                                Berkas umum meliputi scan KTP/Kartu Pelajar, Ijazah/SKL, pas foto terbaru, dan bukti
+                                pembayaran pendaftaran. Detail per jalur ada di brosur.
+                            </p>
+                        </details>
+
+                    </div>
+
+                    <div class="bg-cream p-8 rounded-2xl shadow-xl flex flex-col items-center text-center">
+                        <i class="fas fa-headset text-5xl text-orange-accent mb-5"></i>
+                        <h3 class="text-3xl font-bold text-gray-900 mb-3">Hubungi Tim PMB</h3>
+                        <p class="text-gray-700 mb-8">
+                            Masih ada pertanyaan? Tim kami siap membantu Anda selama jam kerja (Senin-Jumat, 08.00-16.00
+                            WIB).
+                        </p>
+                        <a href="https://wa.me/62xxxxxxxxxx" target="_blank"
+                            class="w-full text-center block bg-orange-accent text-white font-bold text-lg py-4 px-6 rounded-full shadow-lg hover:bg-opacity-90 transition transform hover:scale-105 mb-4">
+                            <i class="fab fa-whatsapp mr-2"></i> Chat via WhatsApp
+                        </a>
+                        <a href="path/to/brosur.pdf"
+                            class="w-full text-center block bg-white text-orange-accent font-semibold text-lg py-4 px-6 rounded-full border-2 border-orange-accent hover:bg-orange-accent hover:text-white transition transform hover:scale-105">
+                            <i class="fas fa-download mr-2"></i> Download Brosur
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 [Nama Kampus]. All rights reserved.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="#" class="hover:text-white">Instagram</a>
+                <a href="#" class="hover:text-white">Facebook</a>
+                <a href="#" class="hover:text-white">YouTube</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const options = { root: null, rootMargin: '0px', threshold: 0.1 };
+
+            // --- Observer untuk Elemen Fade/Slide ---
+            const contentCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            };
+            const contentObserver = new IntersectionObserver(contentCallback, options);
+            const contentTargets = document.querySelectorAll('.slide-trigger, .fade-scale-trigger');
+            contentTargets.forEach(target => {
+                contentObserver.observe(target);
+            });
+
+            // --- Logika untuk Animasi Isi Garis Timeline ---
+            const timelineContainer = document.getElementById('timeline-container');
+            const timelineFillLine = document.getElementById('timeline-fill-line');
+
+            if (timelineContainer && timelineFillLine) {
+                const handleScroll = () => {
+                    const containerRect = timelineContainer.getBoundingClientRect();
+                    const viewportHeight = window.innerHeight;
+
+                    const totalScrollableDist = viewportHeight + containerRect.height;
+                    const currentScrollDist = viewportHeight - containerRect.top;
+                    let progress = currentScrollDist / totalScrollableDist;
+                    progress = Math.max(0, Math.min(1, progress));
+                    timelineFillLine.style.height = `${progress * 100}%`;
+                };
+                handleScroll();
+                window.addEventListener('scroll', handleScroll);
+            }
+
+            // --- JavaScript untuk Scroll Navbar ---
+            const mainHeader = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) { // Jika scroll lebih dari 50px
+                    mainHeader.classList.add('header-scrolled');
+                } else {
+                    mainHeader.classList.remove('header-scrolled');
+                }
+            });
+
+            // --- Kode JavaScript untuk Tab View sudah dihapus ---
+        });
+    </script>
+
+</body>
+
+</html>
